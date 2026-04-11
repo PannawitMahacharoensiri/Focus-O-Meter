@@ -33,5 +33,6 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-Run server at : http://127.0.0.1:8000/
-Run Swagger at : http://127.0.0.1:8000/docs/#/
+**Then you can open these links in your web browser:** <br>
+Server : http://127.0.0.1:8000/ <br>
+Swagger : http://127.0.0.1:8000/docs/#/
