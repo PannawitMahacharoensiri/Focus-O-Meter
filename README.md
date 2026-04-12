@@ -96,3 +96,40 @@ python manage.py runserver
 **Then you can open these links in your web browser:** <br>
 Server : http://127.0.0.1:8000/ <br>
 Swagger : http://127.0.0.1:8000/docs/#/
+
+#### 6. Run the Python frontend (Streamlit)
+Open a second terminal at project root and activate the virtual environment, then run:
+```
+streamlit run frontend/app.py
+```
+
+Then open in your browser:
+- Frontend dashboard: http://localhost:8501/
+
+Keep backend and frontend running at the same time during development.
+
+## Frontend Features:
+
+The Focus-O-Meter analytics dashboard is a Streamlit-based web application that visualizes and analyzes collected environmental and attendance data in real-time.
+
+**Main Visualization Tabs:**
+- **Weather**: Displays temperature trends, environmental metrics (humidity, light, sound), and average sound levels by classroom with interactive time-series charts.
+- **Attendance**: Shows cumulative building occupancy over time (treating entry as +1, exit as -1), bucketed IN/OUT movement counts, and entry/exit distribution statistics.
+- **TMD**: Visualizes external weather data (temperature, humidity, rainfall) and meteorological station locations on an interactive map.
+- **Correlation**: Analyzes relationships between sound levels and attendance activity with Pearson correlation coefficient, trend lines, and scatter plots.
+
+**Filter Controls:**
+- **Classroom Filter**: Automatically detects available classrooms from loaded data and allows filtering by specific classrooms.
+- **Classroom Filter Scope**: Choose between "Common weather+attendance" (only classes in both datasets) or "All discovered" (all available classes).
+- **Date Range**: Quick presets (Today, Last 7 Days, This Month) or custom date range selection.
+- **Row Limit**: Control the number of records fetched per dataset (100-200,000 rows).
+- **Performance Tuning**: Adjust max plot points for performance with large datasets.
+
+**Data Export:**
+- Download filtered data as CSV for each dataset (weather, attendance, TMD, combined, or correlation).
+
+**Performance Optimizations:**
+- API response caching to avoid redundant fetches.
+- Automatic plot downsampling for large datasets.
+- Optional raw data table rendering to control memory usage.
+- Handles large attendance datasets efficiently without freezing.
