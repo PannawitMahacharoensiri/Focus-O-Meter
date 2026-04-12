@@ -32,7 +32,7 @@ class ProjectInclassAttendance(models.Model):
 class Tmd_weather(models.Model):
     temp_c = models.FloatField()
     humid_p = models.FloatField()
-    rainfal_mm = models.FloatField()
+    rainfall_mm = models.FloatField(db_column='rainfal_mm')
     lat = models.FloatField()
     lon = models.FloatField()
     create_time = models.DateTimeField(unique=True)
