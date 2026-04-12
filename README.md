@@ -93,6 +93,6 @@ Table structure is described here: [Database table structure](https://github.com
 # Inside backend directory run
 python manage.py runserver
 ```
-
-Run server at : http://127.0.0.1:8000/ <br>
-Run Swagger at : http://127.0.0.1:8000/docs/#/ 
+**Then you can open these links in your web browser:** <br>
+Server : http://127.0.0.1:8000/ <br>
+Swagger : http://127.0.0.1:8000/docs/#/
