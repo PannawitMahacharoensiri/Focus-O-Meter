@@ -143,3 +143,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+print("Server : http://127.0.0.1:8000/")
+print("Swagger : http://127.0.0.1:8000/docs/#/")
