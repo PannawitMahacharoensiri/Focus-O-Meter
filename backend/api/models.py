@@ -8,7 +8,7 @@ class ProjectInclassWeather(models.Model):
     sound_adc = models.FloatField(db_column='sound_ADC')  # Field name made lowercase.
     measuretime = models.DateTimeField(db_column='measureTime')  # Field name made lowercase.
     timestamp = models.DateTimeField(db_column='timeStamp')  # Field name made lowercase.
-    class_field = models.CharField(db_column='class', max_length=50, blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    classroom = models.CharField(db_column='class', max_length=50, blank=True, null=True)  # Field renamed because it was a Python reserved word.
     objects = models.Manager() 
 
     class Meta:
@@ -41,3 +41,4 @@ class Tmd_weather(models.Model):
     class Meta:
         managed = False
         db_table = 'tmd'
+        

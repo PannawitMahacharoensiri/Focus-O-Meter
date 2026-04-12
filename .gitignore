@@ -9,13 +9,13 @@ env/
 daq_venv/
 
 # Environment variables
-.env
+backend/.env
 .env.*
 
 # Django stuff
 *.log
 local_settings.py
-db.sqlite3
+backend/db.sqlite3
 media/
 
 # Static files (optional if collected)
