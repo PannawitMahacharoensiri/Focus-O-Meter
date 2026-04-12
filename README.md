@@ -67,7 +67,7 @@ cd Focus-O-Meter
 pip install -r requirements.txt
 ```
 
-#### 4. Create a file named ".env" inside the backend directory.
+#### 4. Create a file named ".env" save as type All files inside the backend directory.
 This file is used to store database credentials securely. <br>
 Replace values inside < > with your actual database information.
 ```
