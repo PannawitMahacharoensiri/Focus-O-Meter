@@ -137,22 +137,22 @@ def render_weather_dashboard(
         st.warning("No weather rows after applying classroom filter.")
         return pd.DataFrame()
 
-    filtered = parse_datetime_columns(filtered, ["measuretime", "timestamp"])
+    filtered = parse_datetime_columns(filtered, ["timestamp"])
     rows_col, class_col, temp_col = st.columns(3)
     rows_col.metric("Rows", len(filtered))
     class_count = filtered["classroom"].fillna("Unknown").nunique() if "classroom" in filtered.columns else 0
     class_col.metric("Classrooms", class_count)
     temp_col.metric("Avg Temp (C)", f"{filtered['temp_c'].mean():.2f}" if "temp_c" in filtered.columns else "N/A")
 
-    if "measuretime" in filtered.columns and "temp_c" in filtered.columns:
-        line_source = downsample_frame(filtered, max_plot_points, "measuretime").set_index("measuretime")
+    if "timestamp" in filtered.columns and "temp_c" in filtered.columns:
+        line_source = downsample_frame(filtered, max_plot_points, "timestamp").set_index("timestamp")
         st.markdown("Temperature over time")
         st.line_chart(line_source[["temp_c"]])
 
     metric_columns = [col for col in ["temp_c", "humid_p", "light_l", "sound_adc"] if col in filtered.columns]
-    if metric_columns and "measuretime" in filtered.columns:
+    if metric_columns and "timestamp" in filtered.columns:
         st.markdown("Environmental trends")
-        trend_source = downsample_frame(filtered, max_plot_points, "measuretime").set_index("measuretime")
+        trend_source = downsample_frame(filtered, max_plot_points, "timestamp").set_index("timestamp")
         st.line_chart(trend_source[metric_columns])
 
     if "classroom" in filtered.columns and "sound_adc" in filtered.columns:
@@ -321,10 +321,10 @@ def render_cross_dataset_correlation(
         st.info("Correlation requires both weather and attendance data.")
         return
 
-    weather_parsed = parse_datetime_columns(weather, ["measuretime"])
+    weather_parsed = parse_datetime_columns(weather, ["timestamp"])
     attendance_parsed = parse_datetime_columns(attendance, ["timestamp"])
 
-    if "measuretime" not in weather_parsed.columns or "timestamp" not in attendance_parsed.columns:
+    if "timestamp" not in weather_parsed.columns or "timestamp" not in attendance_parsed.columns:
         st.info("Missing datetime columns needed for time-bucket correlation.")
         return
     if "sound_adc" not in weather_parsed.columns:
@@ -332,8 +332,8 @@ def render_cross_dataset_correlation(
         return
 
     weather_bucket = (
-        weather_parsed.dropna(subset=["measuretime", "sound_adc"])
-        .set_index("measuretime")
+        weather_parsed.dropna(subset=["timestamp", "sound_adc"])
+        .set_index("timestamp")
         .sort_index()
         .resample(bucket_rule)["sound_adc"]
         .mean()

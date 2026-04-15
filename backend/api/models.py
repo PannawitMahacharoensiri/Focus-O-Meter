@@ -6,7 +6,6 @@ class ProjectInclassWeather(models.Model):
     light_l = models.FloatField()
     humid_p = models.FloatField()
     sound_adc = models.FloatField(db_column='sound_ADC')  # Field name made lowercase.
-    measuretime = models.DateTimeField(db_column='measureTime')  # Field name made lowercase.
     timestamp = models.DateTimeField(db_column='timeStamp')  # Field name made lowercase.
     classroom = models.CharField(db_column='class', max_length=50, blank=True, null=True)  # Field renamed because it was a Python reserved word.
     objects = models.Manager() 

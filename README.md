@@ -89,9 +89,9 @@ DB_PORT_ATTENDANCE=3306	  # or your MySQL port
 Table structure is described here: [Database table structure](https://github.com/PannawitMahacharoensiri/Focus-O-Meter/wiki/Table-Structure)
 
 #### 5. Run the development server (Backend)
+in project root, run:
 ```
-# Inside backend directory run
-python manage.py runserver
+python backend/manage.py runserver
 ```
 **Then you can open these links in your web browser:** <br>
 Server : http://127.0.0.1:8000/ <br>

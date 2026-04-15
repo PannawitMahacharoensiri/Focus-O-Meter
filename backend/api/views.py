@@ -141,8 +141,8 @@ def classroom_based_rawdata(request):
     if not weather.exists():
         return Response({"error": "no data can't find Date Range"}, status=404)
 
-    start_time = weather.order_by('measuretime').first().measuretime
-    end_time = weather.order_by('-measuretime').first().measuretime
+    start_time = weather.order_by('timestamp').first().timestamp
+    end_time = weather.order_by('-timestamp').first().timestamp
     start_time_adj = start_time - timedelta(minutes=40)  # Time Buffer
     end_time_adj = end_time + timedelta(minutes=40)      # Time Buffer
 
@@ -177,7 +177,7 @@ def daterange_based_rawdata(request):
     try:
         # Primary data
         weather = ProjectInclassWeather.objects.filter(
-            measuretime__range=[start, end]
+            timestamp__range=[start, end]
         ).values()
         attendance = ProjectInclassAttendance.objects.using('people_db').filter(
             timestamp__range=[start, end]
@@ -218,8 +218,8 @@ def classroom_based_aggregated(request):
     if not weather.exists():
         return Response({"error": "no data"}, status=404)
 
-    start_time = weather.order_by('measuretime').first().measuretime
-    end_time = weather.order_by('-measuretime').first().measuretime
+    start_time = weather.order_by('timestamp').first().timestamp
+    end_time = weather.order_by('-timestamp').first().timestamp
     start_time_adj = start_time - timedelta(minutes=40)
     end_time_adj = end_time + timedelta(minutes=40)
 
