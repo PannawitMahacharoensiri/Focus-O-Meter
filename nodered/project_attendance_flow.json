@@ -1,0 +1,368 @@
+[
+    {
+        "id": "6fd4246c520ec427",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2b24358418dcc7b5",
+        "type": "mqtt in",
+        "z": "6fd4246c520ec427",
+        "name": "project_laser/msg",
+        "topic": "b6610545316/project_laser/msg",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "9894ef79fb9a552a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 240,
+        "wires": [
+            [
+                "ecf47194fbdbb335",
+                "d024f28d39935c89"
+            ]
+        ]
+    },
+    {
+        "id": "ecf47194fbdbb335",
+        "type": "function",
+        "z": "6fd4246c520ec427",
+        "name": "function 3",
+        "func": "const data = msg.payload;\nconst classroom = flow.get('classroom');\n\n// Convert timestamp format (ISO → SQL)\nconst ts = data.timestamp.replace(\"T\", \" \");\n\n// SQL query\nmsg.topic = `\nINSERT INTO project_inclass_attendance (classroom ,direction, timestamp)\nVALUES (?, ?, ?)\n`;\n\n// Values\nmsg.payload = [\n    classroom,\n    data.direction,\n    ts\n];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "50d32b262291b711",
+                "5d2b52189ed00510"
+            ]
+        ]
+    },
+    {
+        "id": "50d32b262291b711",
+        "type": "debug",
+        "z": "6fd4246c520ec427",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "1f2e7cf7c51c43f6",
+        "type": "ui_text_input",
+        "z": "6fd4246c520ec427",
+        "name": "classroom",
+        "label": "classroom",
+        "tooltip": "",
+        "group": "76d86d389182b8a0",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "",
+        "sendOnBlur": false,
+        "className": "",
+        "topicType": "str",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "9367f3dcd8adb5cf",
+                "d024f28d39935c89"
+            ]
+        ]
+    },
+    {
+        "id": "5d2b52189ed00510",
+        "type": "mysql",
+        "z": "6fd4246c520ec427",
+        "mydb": "4c813fb676e336aa",
+        "name": "b6610545316",
+        "x": 600,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9367f3dcd8adb5cf",
+        "type": "change",
+        "z": "6fd4246c520ec427",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "classroom",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "50d32b262291b711"
+            ]
+        ]
+    },
+    {
+        "id": "bd06a9c299ddb625",
+        "type": "mqtt out",
+        "z": "6fd4246c520ec427",
+        "name": "project_laser/state",
+        "topic": "b6610545316/project_laser/state",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9894ef79fb9a552a",
+        "x": 990,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "669067e6203dc246",
+        "type": "mysql",
+        "z": "6fd4246c520ec427",
+        "mydb": "4c813fb676e336aa",
+        "name": "b6610545316",
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "e552d7f7b63d3389"
+            ]
+        ]
+    },
+    {
+        "id": "d024f28d39935c89",
+        "type": "function",
+        "z": "6fd4246c520ec427",
+        "name": "function 4",
+        "func": "msg.topic = `\nSELECT\n  classroom,\n  SUM(CASE WHEN direction = 'IN' THEN 1 ELSE 0 END)  AS incount,\n  SUM(CASE WHEN direction = 'OUT' THEN 1 ELSE 0 END) AS outcount,\n  SUM(CASE WHEN direction = 'IN' THEN 1 ELSE 0 END) -\n  SUM(CASE WHEN direction = 'OUT' THEN 1 ELSE 0 END) AS total\nFROM project_inclass_attendance\nGROUP BY classroom;\n`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 320,
+        "wires": [
+            [
+                "669067e6203dc246"
+            ]
+        ]
+    },
+    {
+        "id": "e552d7f7b63d3389",
+        "type": "function",
+        "z": "6fd4246c520ec427",
+        "name": "function 5",
+        "func": "const classroom = flow.get('classroom');\n\nlet result = msg.payload.find(el => el.classroom === classroom);\n\nmsg.payload = result || { \"classroom\": flow.get('classroom'), \"incount\": 0, \"outcount\": 0, \"total\": 0 };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 320,
+        "wires": [
+            [
+                "bd06a9c299ddb625",
+                "50d32b262291b711",
+                "a2d554f01e8f9af9"
+            ]
+        ]
+    },
+    {
+        "id": "4eaf71acfbf752ea",
+        "type": "ui_chart",
+        "z": "6fd4246c520ec427",
+        "name": "",
+        "group": "76d86d389182b8a0",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "label": "Total",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 990,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a2d554f01e8f9af9",
+        "type": "change",
+        "z": "6fd4246c520ec427",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.total",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 240,
+        "wires": [
+            [
+                "4eaf71acfbf752ea",
+                "dffcd36e215d4fc4"
+            ]
+        ]
+    },
+    {
+        "id": "dffcd36e215d4fc4",
+        "type": "ui_numeric",
+        "z": "6fd4246c520ec427",
+        "name": "",
+        "label": "Total",
+        "tooltip": "",
+        "group": "76d86d389182b8a0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "payload",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 990,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9894ef79fb9a552a",
+        "type": "mqtt-broker",
+        "name": "hivemq",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "76d86d389182b8a0",
+        "type": "ui_group",
+        "name": "Project",
+        "tab": "c044063de118c85a",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4c813fb676e336aa",
+        "type": "MySQLdatabase",
+        "name": "b6610545316",
+        "host": "iot.cpe.ku.ac.th",
+        "port": "3306",
+        "db": "b6610545316",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "c044063de118c85a",
+        "type": "ui_tab",
+        "name": "project",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
