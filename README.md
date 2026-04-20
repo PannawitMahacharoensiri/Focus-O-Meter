@@ -141,7 +141,7 @@ The Focus-O-Meter analytics dashboard is a Streamlit-based web application that 
 
 ## Databases:
 All project databases are hosted and can be accessed via phpMyAdmin at: https://iot.cpe.ku.ac.th/pma/<br>
-For testing and offline use, exported database data is available in CSV format in the collected_data directory
+For testing and offline use, exported database data is available in CSV format in the **collected_data** directory
 
 ## Project Document:
 - Presentation Slide : [DAQ-Group12 Focus-O-Meter](https://drive.google.com/file/d/1jM-HEhIX9o8zzaxOKpJdUtUecSzskpmd/view?usp=sharing)
