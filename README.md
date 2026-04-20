@@ -133,3 +133,7 @@ The Focus-O-Meter analytics dashboard is a Streamlit-based web application that 
 - Automatic plot downsampling for large datasets.
 - Optional raw data table rendering to control memory usage.
 - Handles large attendance datasets efficiently without freezing.
+
+## Project Document:
+- Presentation Slide : https://canva.link/fnu81eal90s6k7k
+- Presentation Video : https://youtu.be/iC7yIKHfZf8?si=QnalV9oKkUfcxxQD
