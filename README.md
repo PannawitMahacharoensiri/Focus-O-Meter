@@ -67,7 +67,12 @@ cd Focus-O-Meter
 pip install -r requirements.txt
 ```
 
-#### 4. Create a file named ".env" save as type All files inside the backend directory.
+#### 4. Apply database migrations
+```
+python backend/manage.py migrate
+```
+
+#### 5. Create a file named ".env" save as type All files inside the backend directory.
 This file is used to store database credentials securely. <br>
 Replace values inside < > with your actual database information.
 ```
@@ -88,7 +93,7 @@ DB_PORT_ATTENDANCE=3306	  # or your MySQL port
 - Second database contains tables: **project_inclass_attendance**, **tmd** <br>
 Table structure is described here: [Database table structure](https://github.com/PannawitMahacharoensiri/Focus-O-Meter/wiki/Table-Structure)
 
-#### 5. Run the development server (Backend)
+#### 6. Run the development server (Backend)
 in project root, run:
 ```
 python backend/manage.py runserver
@@ -97,7 +102,7 @@ python backend/manage.py runserver
 Server : http://127.0.0.1:8000/ <br>
 Swagger : http://127.0.0.1:8000/docs/#/
 
-#### 6. Run the Python frontend (Streamlit)
+#### 7. Run the Python frontend (Streamlit)
 Open a second terminal at project root and activate the virtual environment, then run:
 ```
 streamlit run frontend/app.py
@@ -134,6 +139,10 @@ The Focus-O-Meter analytics dashboard is a Streamlit-based web application that 
 - Optional raw data table rendering to control memory usage.
 - Handles large attendance datasets efficiently without freezing.
 
+## Databases:
+All project databases are hosted and can be accessed via phpMyAdmin at: https://iot.cpe.ku.ac.th/pma/<br>
+For testing and offline use, exported database data is available in CSV format in the collected_data directory
+
 ## Project Document:
-- Presentation Slide : https://canva.link/fnu81eal90s6k7k
-- Presentation Video : https://youtu.be/iC7yIKHfZf8?si=QnalV9oKkUfcxxQD
+- Presentation Slide : [DAQ-Group12 Focus-O-Meter](https://drive.google.com/file/d/1jM-HEhIX9o8zzaxOKpJdUtUecSzskpmd/view?usp=sharing)
+- Presentation Video : [DAQ Focus-O-Meter Brainwpower 20/04/2026](https://youtu.be/iC7yIKHfZf8?si=QnalV9oKkUfcxxQD)
